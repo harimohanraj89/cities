@@ -5,6 +5,11 @@ var player = {
   name: 'JimBob',
   gold: 100,
   buildings: [],
+  tick: function(dt) {
+    this.buildings.forEach(function(building) {
+      building.tick(dt);
+    });
+  },
   build: function(Building, row, col) {
     var building;
     if (player.gold < Building.cost) {
@@ -16,16 +21,6 @@ var player = {
     building = new Building({ row: row, col: col, player: this });
     this.buildings.push(building);
     return true;
-  },
-  makeRefinery: function(row, col) {
-    var refinery;
-    player.gold -= Strategy.Refinery.cost;
-    refinery = new Strategy.Refinery({
-      row: row,
-      col: col,
-      player: this
-    });
-    this.buildings.push(refinery);
   },
   creditGold: function(amount) {
     this.gold += amount;
@@ -44,9 +39,13 @@ window.onload = function() {
   window.requestAnimationFrame(draw);
 
   player.build(Strategy.Refinery, 2, 3);
+
+  var getNow = function() { return (new Date()).getTime() };
+  var time = getNow();
   setInterval(function() {
-    player.buildings.forEach(function(building) {
-      building.generate();
-    });
-  }, 1000);
+    var now = getNow();
+    var dt = now - time;
+    time = now;
+    player.tick(dt);
+  }, 100);
 };

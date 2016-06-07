@@ -9,7 +9,7 @@ Strategy.Map = function(opt) {
       row.push({
         row: i,
         col: j,
-        size: 200,
+        size: 100,
         occupied: false
       });
     }

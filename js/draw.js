@@ -32,7 +32,7 @@ var drawMap = function(map) {
       var x = cell.row * cell.size;
       var y = cell.col * cell.size;
       ctx.strokeRect(x, y, cell.size, cell.size);
-      ctx.font = "32px Arial";
+      ctx.font = "16px Arial";
       ctx.fillText(cell.row + ', ' + cell.col, x + cell.size/2, y + cell.size/2);
     }
   }
@@ -54,9 +54,9 @@ var drawBuilding = function(building, map) {
   var cell = map.get(building.getRow(), building.getCol());
   var x = cell.row * cell.size;
   var y = cell.col * cell.size;
-  ctx.fillRect(x, y, cell.size, cell.size);
+  ctx.fillRect(x, y, cell.size * building.size.row, cell.size * building.size.col);
   ctx.restore();
   ctx.fillStyle = "#000";
-  ctx.font = "32px Arial";
+  ctx.font = "24px Arial";
   ctx.fillText(building.getName(), x + 4, y + cell.size/2);
 };
