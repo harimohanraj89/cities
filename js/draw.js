@@ -1,17 +1,31 @@
 var draw = function() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  drawMap(Strategy.map, Strategy.camera);
-  drawHud(player);
-  player.buildings.forEach(function(building) {
-    drawBuilding(building, Strategy.map);
-  })
-  draw;
-  window.requestAnimationFrame(draw);
-}
+  drawRelative(function() {
+    drawMap(Strategy.map);
+    player.buildings.forEach(function(building) {
+      drawBuilding(building, Strategy.map);
+    });
+  }, Strategy.camera);
 
-var drawMap = function(map, camera) {
+  drawAbsolute(function() {
+    drawHud(player);
+  });
+
+  window.requestAnimationFrame(draw);
+};
+
+var drawRelative = function(fxn, camera) {
   ctx.save();
   ctx.translate(-camera.x, -camera.y);
+  fxn();
+  ctx.restore();
+};
+
+var drawAbsolute = function(fxn) {
+  fxn();
+}
+
+var drawMap = function(map) {
   for (var row = 0, rows = map.rows(); row < rows; row++) {
     for (var col = 0, cols = map.cols(); col < cols; col++) {
       var cell = map.get(row, col);
@@ -22,7 +36,6 @@ var drawMap = function(map, camera) {
       ctx.fillText(cell.row + ', ' + cell.col, x + cell.size/2, y + cell.size/2);
     }
   }
-  ctx.restore();
 };
 
 var drawHud = function(player) {
