@@ -1,18 +1,19 @@
-Strategy.Refinery = function(opt) {
+Strategy.Refinery = function(opts) {
   this.name = "Refinery";
   this.time = 0;
   this.position = {
-    row: opt.row,
-    col: opt.col
+    row: opts.row,
+    col: opts.col
   };
 
   this.generationAmount = 10;
   this.generationInterval = 2000;
-  this.player = opt.player;
+  this.player = opts.player;
 };
 
 Strategy.Refinery.cost = 100;
 
+Strategy.Refinery.size = { row: 2, col: 2 };
 Strategy.Refinery.prototype.size = { row: 2, col: 2 };
 
 Strategy.Refinery.prototype.tick = function(time) {

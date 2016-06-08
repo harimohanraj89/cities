@@ -38,7 +38,13 @@ window.onload = function() {
   window.addEventListener('keydown', keyboardInput);
   window.requestAnimationFrame(draw);
 
-  player.build(Strategy.Refinery, 2, 3);
+  Strategy.BuildingFactory.create({
+    player: player,
+    building: Strategy.Refinery,
+    map: Strategy.map,
+    row: 2,
+    col: 3
+  });
 
   var getNow = function() { return (new Date()).getTime() };
   var time = getNow();
