@@ -9,13 +9,15 @@ Strategy.Map = function(opt) {
       row.push({
         row: i,
         col: j,
-        size: 100,
+        size: this.cellSize,
         occupied: false
       });
     }
     this.grid.push(row);
   }
 };
+
+Strategy.Map.prototype.cellSize = 100;
 
 Strategy.Map.prototype.get = function(row, col) {
   if (!this.outOfBounds(row, col)) {

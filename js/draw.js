@@ -2,13 +2,13 @@ var draw = function() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawRelative(function() {
     drawMap(Strategy.map);
-    player.buildings.forEach(function(building) {
+    Strategy.player.buildings.forEach(function(building) {
       drawBuilding(building, Strategy.map);
     });
   }, Strategy.camera);
 
   drawAbsolute(function() {
-    drawHud(player);
+    drawHud(Strategy.player);
   });
 
   window.requestAnimationFrame(draw);

@@ -1,7 +1,6 @@
 var Strategy = {};
 var canvas, ctx;
 
-var player;
 var playerData = {
   name: 'JimBob',
   gold: 100
@@ -19,10 +18,15 @@ window.onload = function() {
   window.addEventListener('keydown', keyboardInput);
   window.requestAnimationFrame(draw);
 
-  player = new Strategy.Player(playerData);
+  Strategy.player = new Strategy.Player(playerData);
+  Strategy.mouseInput = new Strategy.MouseInput({
+    canvas: canvas,
+    camera: Strategy.camera,
+    map: Strategy.map
+  });
 
   Strategy.BuildingFactory.create({
-    player: player,
+    player: Strategy.player,
     building: Strategy.Refinery,
     map: Strategy.map,
     row: 2,
@@ -35,6 +39,6 @@ window.onload = function() {
     var now = getNow();
     var dt = now - time;
     time = now;
-    player.tick(dt);
+    Strategy.player.tick(dt);
   }, 100);
 };
