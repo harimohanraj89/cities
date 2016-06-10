@@ -1,30 +1,10 @@
 var Strategy = {};
 var canvas, ctx;
 
-var player = {
+var player;
+var playerData = {
   name: 'JimBob',
-  gold: 100,
-  buildings: [],
-  tick: function(dt) {
-    this.buildings.forEach(function(building) {
-      building.tick(dt);
-    });
-  },
-  build: function(Building, row, col) {
-    var building;
-    if (player.gold < Building.cost) {
-      alert('Not enough gold');
-      return false;
-    }
-
-    player.gold -= Building.cost;
-    building = new Building({ row: row, col: col, player: this });
-    this.buildings.push(building);
-    return true;
-  },
-  creditGold: function(amount) {
-    this.gold += amount;
-  }
+  gold: 100
 };
 
 window.onload = function() {
@@ -32,11 +12,14 @@ window.onload = function() {
     rows: 100,
     cols: 100
   });
+
   canvas = document.getElementById('canvas');
   ctx = canvas.getContext('2d');
 
   window.addEventListener('keydown', keyboardInput);
   window.requestAnimationFrame(draw);
+
+  player = new Strategy.Player(playerData);
 
   Strategy.BuildingFactory.create({
     player: player,
@@ -46,7 +29,7 @@ window.onload = function() {
     col: 3
   });
 
-  var getNow = function() { return (new Date()).getTime() };
+  var getNow = function() { return (new Date()).getTime(); };
   var time = getNow();
   setInterval(function() {
     var now = getNow();
