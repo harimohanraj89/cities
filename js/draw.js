@@ -1,62 +1,40 @@
 var draw = function() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  drawRelative(function() {
-    drawMap(Strategy.map);
-    Strategy.player.buildings.forEach(function(building) {
-      drawBuilding(building, Strategy.map);
-    });
-  }, Strategy.camera);
-
-  drawAbsolute(function() {
-    drawHud(Strategy.player);
-  });
-
+  drawHud(Strategy.player);
   window.requestAnimationFrame(draw);
 };
 
-var drawRelative = function(fxn, camera) {
-  ctx.save();
-  ctx.translate(-camera.x, -camera.y);
-  fxn();
-  ctx.restore();
+var drawHud = function(player) {
+  document.getElementById('player-name').innerHTML = player.name;
+  document.getElementById('player-gold').innerHTML = player.gold;
 };
 
-var drawAbsolute = function(fxn) {
-  fxn();
-}
-
-var drawMap = function(map) {
+var drawHtmlMap = function(map) {
+  var table = document.getElementById("table");
   for (var row = 0, rows = map.rows(); row < rows; row++) {
+    var tr = document.createElement("tr");
     for (var col = 0, cols = map.cols(); col < cols; col++) {
-      var cell = map.get(row, col);
-      var x = cell.row * cell.size;
-      var y = cell.col * cell.size;
-      ctx.strokeRect(x, y, cell.size, cell.size);
-      ctx.font = "16px Arial";
-      ctx.fillText(cell.row + ', ' + cell.col, x + cell.size/2, y + cell.size/2);
+      var td = document.createElement("td");
+      td.id = "map-" + row + "-" + col;
+      td.classList.add("map-cell");
+      td.dataset.row = row;
+      td.dataset.col = col;
+      tr.appendChild(td);
     }
+    table.appendChild(tr);
   }
 };
 
-var drawHud = function(player) {
-  ctx.save();
-  ctx.fillStyle = "#000";
-  ctx.fillRect(0, 0, canvas.width, 40);
-  ctx.font = "32px Arial";
-  ctx.fillStyle = "#fff";
-  ctx.fillText(player.name + " | " + player.gold, 0, 36);
-  ctx.restore();
-}
-
 var drawBuilding = function(building, map) {
-  ctx.save();
-  ctx.fillStyle = "#7c7";
-  var cell = map.get(building.getRow(), building.getCol());
-  var x = cell.row * cell.size;
-  var y = cell.col * cell.size;
-  ctx.fillRect(x, y, cell.size * building.size.row, cell.size * building.size.col);
-  ctx.restore();
-  ctx.fillStyle = "#000";
-  ctx.font = "24px Arial";
-  ctx.fillText(building.getName(), x + 4, y + cell.size/2);
+  var row = building.getRow();
+  var col = building.getCol();
+
+  var rows = building.size.row;
+  var cols = building.size.col;
+
+  for(var r = row; r < row + rows; r++) {
+    for(var c = col; c < col + cols; c++) {
+      var cell = document.getElementById("map-" + r + "-" + c);
+      cell.classList.add(building.slug);
+    }
+  }
 };

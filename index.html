@@ -19,11 +19,22 @@
     }
     #canvas {
       width: 1440px;
-      height: 900px;
+      height: 100px;
       background: #888;
+    }
+    #table td {
+      background: #eee;
+      padding: 25px;
+    }
+    #table td.refinery {
+      background: #9f9;
     }
   </style>
   <body>
-    <canvas id="canvas" width=2880 height=1800></canvas>
+    <div id="hud">
+      <span id="player-name"></span> |
+      <span id="player-gold"></span>
+    </div>
+    <table id="table"></table>
   </body>
 </html>

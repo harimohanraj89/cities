@@ -1,10 +1,4 @@
 var Strategy = {};
-var canvas, ctx;
-
-var playerData = {
-  name: 'JimBob',
-  gold: 100
-};
 
 window.onload = function() {
   Strategy.map = new Strategy.Map({
@@ -12,17 +6,22 @@ window.onload = function() {
     cols: 100
   });
 
-  canvas = document.getElementById('canvas');
-  ctx = canvas.getContext('2d');
+  Strategy.player = new Strategy.Player({
+    name: 'JimBob',
+    gold: 200
+  });
 
-  window.addEventListener('keydown', keyboardInput);
-  window.requestAnimationFrame(draw);
+  drawHtmlMap(Strategy.map);
 
-  Strategy.player = new Strategy.Player(playerData);
-  Strategy.mouseInput = new Strategy.MouseInput({
-    canvas: canvas,
-    camera: Strategy.camera,
-    map: Strategy.map
+  window.addEventListener('keydown', Strategy.keyboardInput);
+  window.addEventListener('buildingCreated', function(e) {
+    drawBuilding(e.detail);
+  });
+
+  document.getElementById('table').addEventListener('click', function(e) {
+    if(e.target.classList.contains('map-cell')) {
+      Strategy.mouseInput(e);
+    }
   });
 
   Strategy.BuildingFactory.create({
@@ -33,6 +32,7 @@ window.onload = function() {
     col: 3
   });
 
+  window.requestAnimationFrame(draw);
   var getNow = function() { return (new Date()).getTime(); };
   var time = getNow();
   setInterval(function() {

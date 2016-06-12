@@ -12,13 +12,19 @@ Strategy.BuildingFactory.create = function(opts) {
 
 Strategy.BuildingFactory.prototype.create = function() {
   if(this.goldAvailable() && this.spaceAvailable()) {
-    this.createBuilding();
+    var buildingInstance = this.createBuilding();
     this.debitGold();
     this.occupySpace();
+    this.notify(buildingInstance);
     return true;
   }
 
   return false;
+};
+
+Strategy.BuildingFactory.prototype.notify = function(building) {
+  var buildingCreated = new CustomEvent('buildingCreated', { 'detail': building });
+  dispatchEvent(buildingCreated);
 };
 
 Strategy.BuildingFactory.prototype.goldAvailable = function() {
@@ -40,6 +46,7 @@ Strategy.BuildingFactory.prototype.spaceAvailable = function() {
 Strategy.BuildingFactory.prototype.createBuilding = function() {
   building = new this.building({ row: this.row, col: this.col, player: this.player });
   this.player.buildings.push(building);
+  return building;
 };
 
 Strategy.BuildingFactory.prototype.debitGold = function() {

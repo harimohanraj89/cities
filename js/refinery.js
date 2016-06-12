@@ -1,5 +1,6 @@
 Strategy.Refinery = function(opts) {
   this.name = "Refinery";
+  this.slug = "refinery";
   this.time = 0;
   this.position = {
     row: opts.row,
