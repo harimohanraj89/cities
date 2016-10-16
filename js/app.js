@@ -19,8 +19,14 @@ window.onload = function() {
   });
 
   document.getElementById('table').addEventListener('click', function(e) {
-    if(e.target.classList.contains('map-cell')) {
-      Strategy.mouseInput(e);
+    if (e.target.classList.contains('map-cell')) {
+      Strategy.clickMap(e);
+    }
+  });
+
+  document.getElementById('buildings').addEventListener('click', function(e) {
+    if (e.target.classList.contains('building-factory')) {
+      Strategy.selectBuilding(e);
     }
   });
 

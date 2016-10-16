@@ -1,16 +1,19 @@
 Strategy.Refinery = function(opts) {
-  this.name = "Refinery";
-  this.slug = "refinery";
   this.time = 0;
   this.position = {
     row: opts.row,
     col: opts.col
   };
+  this.name = Strategy.Refinery.name;
+  this.slug = Strategy.Refinery.slug;
 
   this.generationAmount = 10;
   this.generationInterval = 2000;
   this.player = opts.player;
 };
+
+Strategy.Refinery.name = "Refinery";
+Strategy.Refinery.slug = "refinery";
 
 Strategy.Refinery.cost = 100;
 
@@ -40,3 +43,5 @@ Strategy.Refinery.prototype.getRow = function() {
 Strategy.Refinery.prototype.getCol = function() {
   return this.position.col;
 };
+
+Strategy.Registry.registerBuilding(Strategy.Refinery);

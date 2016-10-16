@@ -6,6 +6,7 @@ var draw = function() {
 var drawHud = function(player) {
   document.getElementById('player-name').innerHTML = player.name;
   document.getElementById('player-gold').innerHTML = player.gold;
+  document.getElementById('input-state').innerHTML = Strategy.input.selectedBuilding();
 };
 
 var drawHtmlMap = function(map) {
